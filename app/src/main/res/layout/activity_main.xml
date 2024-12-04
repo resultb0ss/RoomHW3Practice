@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Записная книжка"
+        app:titleTextColor="@color/white"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
+
+        <ImageButton
+            android:id="@+id/secondActivityExitButtonBTN"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_exit_24"
+            android:background="@null"
+            android:layout_marginEnd="8dp"/>
+
+
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="4dp">
+
+        <EditText
+            android:id="@+id/mainActivityNameEditTextET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/main_activity_name_edit_text_hint"/>
+
+        <EditText
+            android:id="@+id/mainActivityPhoneEditTextET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/main_activity_phone_edit_text_hint"/>
+
+        <Button
+            android:id="@+id/mainActivitySaveButtonBTN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/main_activity_save_button_text" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mainActivityRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            tools:listitem="@layout/list_item"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

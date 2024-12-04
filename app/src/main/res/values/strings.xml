@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">RoomHW3</string>
+    <string name="main_activity_save_button_text">Сохранить</string>
+    <string name="main_activity_name_edit_text_hint">Имя и Фамилия</string>
+    <string name="main_activity_phone_edit_text_hint">Номер телефона</string>
+    <string name="item_listview_name_tv">Имя и Фамилия</string>
+    <string name="item_list_view_phone_tv">+791669479343</string>
+</resources>
