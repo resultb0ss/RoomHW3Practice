@@ -11,14 +11,15 @@ import java.util.Date
 import java.util.Locale
 
 
-class PersonAdapter(context: Context, private val listener: PersonClickListener) :
+class PersonAdapter(private val listener: PersonClickListener) :
     RecyclerView.Adapter<PersonAdapter.PersonViewHolder>() {
 
     var personList = mutableListOf<Person>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(newList: List<Person>){
-        personList.addAll(personList)
+    fun updateList(newList: List<Person>) {
+        personList.clear()
+        personList.addAll(newList)
         notifyDataSetChanged()
     }
 
@@ -29,7 +30,7 @@ class PersonAdapter(context: Context, private val listener: PersonClickListener)
     ): PersonViewHolder {
 
         val binding = ListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        binding.itemIconDeleteIV.setOnClickListener{
+        binding.itemIconDeleteIV.setOnClickListener {
             listener.onItemClicked(personList[PersonViewHolder(binding).adapterPosition])
         }
 
@@ -51,38 +52,21 @@ class PersonAdapter(context: Context, private val listener: PersonClickListener)
     class PersonViewHolder(val binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-            @SuppressLint("SetTextI18n")
-            fun bind(person: Person){
+        @SuppressLint("SetTextI18n")
+        fun bind(person: Person) {
 
-                binding.itemNameTV.text = person.name
-                binding.itemPhoneTV.text = person.phone
-                binding.itemIconDeleteIV.setImageResource(R.drawable.ic_delete_24)
-                binding.createTimeTV.text = person.time.toString().asTime()
+            binding.itemNameTV.text = person.name
+            binding.itemPhoneTV.text = person.phone
+            binding.itemIconDeleteIV.setImageResource(R.drawable.ic_delete_24)
+            binding.createTimeTV.text = person.time.toString().asTime()
 
-            }
-    }
-
-    fun addItem(item: Person, onSuccess: () -> Unit) {
-        if (!personList.contains(item)) {
-            personList.add(item)
-            personList.sortBy { it.name }
-            notifyItemInserted(0)
         }
-        onSuccess
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun setList(newList: MutableList<Person>){
-        personList = newList
-        personList.sortBy { it.name }
-        notifyDataSetChanged()
-    }
 
-    interface PersonClickListener{
+    interface PersonClickListener {
         fun onItemClicked(person: Person)
     }
-
-
 
 
 }

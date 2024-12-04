@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), PersonAdapter.PersonClickListener {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val adapter = PersonAdapter(this, this)
+        val adapter = PersonAdapter(this)
         binding.mainActivityRecyclerView.adapter = adapter
 
         viewModel = ViewModelProvider(
@@ -33,9 +33,12 @@ class MainActivity : AppCompatActivity(), PersonAdapter.PersonClickListener {
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)
         )[PersonViewModel::class.java]
 
-        viewModel.persons.observe(this, { list -> list?.let {
-            Log.d("@@@","viewModel observer ${list}")
-            adapter.updateList(it) }})
+        viewModel.persons.observe(this, { list ->
+            list?.let {
+                Log.d("@@@", "viewModel observer ${list}")
+                adapter.updateList(it)
+            }
+        })
 
 
     }
@@ -61,7 +64,7 @@ class MainActivity : AppCompatActivity(), PersonAdapter.PersonClickListener {
     fun saveData() {
         val personName = binding.mainActivityNameEditTextET.text.toString()
         val phone = binding.mainActivityPhoneEditTextET.text.toString()
-        val  timeStamp = formatMillisecond(Date().time)
+        val timeStamp = formatMillisecond(Date().time)
 
 
         if (personName.isNotEmpty() && phone.isNotEmpty()) {
@@ -73,7 +76,7 @@ class MainActivity : AppCompatActivity(), PersonAdapter.PersonClickListener {
         binding.mainActivityPhoneEditTextET.text.clear()
     }
 
-    private fun formatMillisecond(time: Long): String{
+    private fun formatMillisecond(time: Long): String {
         val timeFormat = SimpleDateFormat("EEE, HH:mm")
         timeFormat.timeZone = TimeZone.getTimeZone("GMT+04")
         return timeFormat.format(Date(time))

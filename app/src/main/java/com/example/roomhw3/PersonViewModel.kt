@@ -23,7 +23,7 @@ class PersonViewModel (application: Application) : AndroidViewModel(application)
     }
 
     fun insertPerson(person: Person) = viewModelScope.launch(Dispatchers.IO) {
-        Log.d("@@@","viewModel insertPerson ${person.name}")
+        Log.d("@@@", "viewModel insertPerson ${person.name}")
         repository.insert(person)
     }
 }
