@@ -1,17 +1,13 @@
 package com.example.roomhw3
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.roomhw3.databinding.ListItemBinding
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 
-class PersonAdapter(private val listener: PersonClickListener) :
+class PersonAdapter(val onItemClick: (item: Person) -> Unit) :
     RecyclerView.Adapter<PersonAdapter.PersonViewHolder>() {
 
     var personList = mutableListOf<Person>()
@@ -20,7 +16,7 @@ class PersonAdapter(private val listener: PersonClickListener) :
     fun updateList(newList: List<Person>) {
         personList.clear()
         personList.addAll(newList)
-        notifyDataSetChanged()
+        notifyItemInserted(0)
     }
 
 
@@ -30,9 +26,6 @@ class PersonAdapter(private val listener: PersonClickListener) :
     ): PersonViewHolder {
 
         val binding = ListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        binding.itemIconDeleteIV.setOnClickListener {
-            listener.onItemClicked(personList[PersonViewHolder(binding).adapterPosition])
-        }
 
         return PersonViewHolder(binding)
     }
@@ -43,7 +36,13 @@ class PersonAdapter(private val listener: PersonClickListener) :
         position: Int
     ) {
         val person = personList[position]
-        holder.bind(person)
+        holder.binding.itemNameTV.text = person.name
+        holder.binding.itemPhoneTV.text = person.phone
+        holder.binding.itemIconDeleteIV.setImageResource(R.drawable.ic_delete_24)
+//            binding.createTimeTV.text = person.time.toString().asTime()
+        holder.itemView.setOnClickListener {
+            onItemClick(person)
+        }
     }
 
     override fun getItemCount() = personList.size
@@ -52,27 +51,13 @@ class PersonAdapter(private val listener: PersonClickListener) :
     class PersonViewHolder(val binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        @SuppressLint("SetTextI18n")
-        fun bind(person: Person) {
-
-            binding.itemNameTV.text = person.name
-            binding.itemPhoneTV.text = person.phone
-            binding.itemIconDeleteIV.setImageResource(R.drawable.ic_delete_24)
-            binding.createTimeTV.text = person.time.toString().asTime()
-
-        }
-    }
-
-
-    interface PersonClickListener {
-        fun onItemClicked(person: Person)
     }
 
 
 }
 
-private fun String.asTime(): String {
-    val time = Date(this.toLong())
-    val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-    return timeFormat.format(time)
-}
+//private fun String.asTime(): String {
+//    val time = Date(this.toLong())
+//    val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+//    return timeFormat.format(time)
+//}

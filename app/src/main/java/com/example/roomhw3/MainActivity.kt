@@ -5,12 +5,13 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.roomhw3.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.TimeZone
 
-class MainActivity : AppCompatActivity(), PersonAdapter.PersonClickListener {
+class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
@@ -25,7 +26,9 @@ class MainActivity : AppCompatActivity(), PersonAdapter.PersonClickListener {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val adapter = PersonAdapter(this)
+        val adapter = PersonAdapter{person -> deletePerson(person)}
+        binding.mainActivityRecyclerView.layoutManager = LinearLayoutManager(this,
+            LinearLayoutManager.VERTICAL,false)
         binding.mainActivityRecyclerView.adapter = adapter
 
         viewModel = ViewModelProvider(
@@ -40,25 +43,19 @@ class MainActivity : AppCompatActivity(), PersonAdapter.PersonClickListener {
             }
         })
 
+        binding.mainActivitySaveButtonBTN.setOnClickListener {
+            saveData()
+        }
+
 
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        initFields()
-    }
-
-    override fun onItemClicked(person: Person) {
+    private fun deletePerson(person: Person){
         viewModel.deletePerson(person)
         Toast.makeText(this, "Контакт удален", Toast.LENGTH_LONG).show()
     }
 
-    private fun initFields() {
-        binding.mainActivitySaveButtonBTN.setOnClickListener {
-            saveData()
-        }
-    }
 
 
     fun saveData() {
